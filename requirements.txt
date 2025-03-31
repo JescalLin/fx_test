@@ -1,0 +1,3 @@
+python-dotenv
+bitfinex-api-py
+pyTelegramBotAPI
