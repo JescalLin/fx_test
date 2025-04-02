@@ -187,8 +187,8 @@ else:
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
-                        amount="150",  # 放貸金額
-                        rate="0.0005",  # 匯率
+                        amount=str(int(wallet_available_balance)-1),  # 放貸金額
+                        rate="0.00055",  # 匯率
                         period=2  # 放貸天數
                     )
                     print("放貸成功:", response)
