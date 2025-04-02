@@ -8,16 +8,17 @@ import telebot
 coin = "fUSD"
 stop_flag = False  # 停止放貸的標誌
 wallet_available_balance = 0  # 錢包餘額
+base_price = 150  # 基準價格
 # 加載環境變數
-load_dotenv()
+load_dotenv(override=True)
 BASE_URL = "https://api.bitfinex.com/v2"
 API_KEY, API_SECRET, TG_Token, TG_chat_id = (
     os.getenv("API_KEY"),
     os.getenv("API_SECRET"),
     os.getenv("TG_Token"),
     os.getenv("TG_chat_id")
-
 )
+
 
 bfx = Client(
     rest_host=REST_HOST,
@@ -84,7 +85,7 @@ if stop_flag == True:
     pass
 else:
     # 策略參數
-    LENDING_AMOUNT = 150  # 放貸總金額
+    LENDING_AMOUNT = base_price  # 放貸總金額
     LENDING_PERIOD = 2  # 放貸天數
     RATE_THRESHOLD = [0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008]  # 匯率門檻
     Y_RATE_THRESHOLD = []
@@ -120,25 +121,25 @@ else:
             msg += f"目前門檻: {level} : {Y_RATE_THRESHOLD[level]}\n"
 
             if level == 0 :
-                LENDING_AMOUNT = 150
+                LENDING_AMOUNT = base_price
                 LENDING_PERIOD = 2
             if level == 1 :
-                LENDING_AMOUNT = 175
+                LENDING_AMOUNT = base_price + 25
                 LENDING_PERIOD = 2
             if level == 2 :
-                LENDING_AMOUNT = 200
+                LENDING_AMOUNT = base_price + 50
                 if best_rate_period > 5:
                     LENDING_PERIOD = 5
                 else:
                     LENDING_PERIOD = best_rate_period
             if level == 3 :
-                LENDING_AMOUNT = 200
+                LENDING_AMOUNT = base_price + 50
                 if best_rate_period > 10:
                     LENDING_PERIOD = 10
                 else:
                     LENDING_PERIOD = best_rate_period
             if level == 4 :
-                LENDING_AMOUNT = 250
+                LENDING_AMOUNT = base_price + 100
                 if best_rate_period > 15:
                     LENDING_PERIOD = 15
                 else:
@@ -153,7 +154,7 @@ else:
                 LENDING_AMOUNT = int(wallet_available_balance)
 
 
-            if int(wallet_available_balance) - LENDING_AMOUNT < 150:
+            if int(wallet_available_balance) - LENDING_AMOUNT < base_price:
                 LENDING_AMOUNT = int(wallet_available_balance)
 
 
@@ -182,6 +183,15 @@ else:
                 print("放貸成功:", response)
                 msg += f"放貸成功: {response}\n"
 
+                if int(wallet_available_balance) > 150:
+                    response = bfx.rest.auth.submit_funding_offer(
+                        type="LIMIT",  # 放貸類型
+                        symbol=coin,
+                        amount="150",  # 放貸金額
+                        rate="0.0005",  # 匯率
+                        period=2  # 放貸天數
+                    )
+                    print("放貸成功:", response)
 
                 bot = telebot.TeleBot(TG_Token)
 
