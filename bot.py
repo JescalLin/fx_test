@@ -27,27 +27,27 @@ bfx = Client(
 )
 
 
-try:
-    # 獲取所有放貸訂單
-    funding_offers = bfx.rest.auth.get_funding_offers(symbol=coin)
-    print("目前的放貸訂單:")
-    for offer in funding_offers:
-        print(f"訂單 ID: {offer.id}, 金額: {offer.amount}, 匯率: {offer.rate}, 天數: {offer.period}")
+# try:
+#     # 獲取所有放貸訂單
+#     funding_offers = bfx.rest.auth.get_funding_offers(symbol=coin)
+#     print("目前的放貸訂單:")
+#     for offer in funding_offers:
+#         print(f"訂單 ID: {offer.id}, 金額: {offer.amount}, 匯率: {offer.rate}, 天數: {offer.period}")
 
-    # 檢查是否有放貸訂單
-    if funding_offers:
-        print("正在取消所有放貸訂單...")
-        for offer in funding_offers:
-            try:
-                # 取消每個訂單
-                cancel_response = bfx.rest.auth.cancel_funding_offer(id=offer.id)
-                print(f"取消訂單成功: 訂單 ID: {offer.id}, 回應: {cancel_response}")
-            except Exception as e:
-                print(f"無法取消訂單 ID: {offer.id}, 錯誤: {e}")
-    else:
-        print("目前沒有放貸訂單可取消。")
-except Exception as e:
-    print(f"無法獲取放貸訂單: {e}")
+#     # 檢查是否有放貸訂單
+#     if funding_offers:
+#         print("正在取消所有放貸訂單...")
+#         for offer in funding_offers:
+#             try:
+#                 # 取消每個訂單
+#                 cancel_response = bfx.rest.auth.cancel_funding_offer(id=offer.id)
+#                 print(f"取消訂單成功: 訂單 ID: {offer.id}, 回應: {cancel_response}")
+#             except Exception as e:
+#                 print(f"無法取消訂單 ID: {offer.id}, 錯誤: {e}")
+#     else:
+#         print("目前沒有放貸訂單可取消。")
+# except Exception as e:
+#     print(f"無法獲取放貸訂單: {e}")
 
 print("-----------------------------------------")
 # 獲取融資錢包中的餘額
