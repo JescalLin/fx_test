@@ -183,7 +183,7 @@ else:
                 print("放貸成功:", response)
                 msg += f"放貸成功: {response}\n"
 
-                if int(wallet_available_balance)-LENDING_AMOUNT > 150 and int(wallet_available_balance)-LENDING_AMOUNT < 600:
+                if int(wallet_available_balance)-LENDING_AMOUNT > 150 and int(wallet_available_balance)-LENDING_AMOUNT < 450:
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
@@ -191,7 +191,7 @@ else:
                         rate="0.00055",  # 匯率
                         period=2  # 放貸天數
                     )
-                if int(wallet_available_balance)-LENDING_AMOUNT >= 600:
+                if int(wallet_available_balance)-LENDING_AMOUNT >= 450:
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
@@ -214,13 +214,17 @@ else:
                         rate="0.00025",  # 匯率
                         period=2  # 放貸天數
                     )
-                    response = bfx.rest.auth.submit_funding_offer(
-                        type="LIMIT",  # 放貸類型
-                        symbol=coin,
-                        amount="150",  # 放貸金額
-                        rate="0.00025",  # 匯率
-                        period=2  # 放貸天數
-                    )                
+
+                    wallets = bfx.rest.auth.get_wallets()  # 獲取所有錢包資訊
+                    for wallet in wallets:
+                        if wallet.wallet_type == 'funding' and wallet.currency == "USD":
+                            print(f"融資錢包中的 USD 餘額: {wallet.balance}")
+                            print(f"可用餘額: {wallet.available_balance}")
+                            msg += f"融資錢包中的 USD 餘額: {wallet.balance}\n"
+                            msg += f"可用餘額: {wallet.available_balance}\n"
+                            wallet_available_balance = wallet.available_balance
+
+                                    
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
