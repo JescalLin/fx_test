@@ -183,7 +183,7 @@ else:
                 print("放貸成功:", response)
                 msg += f"放貸成功: {response}\n"
 
-                if int(wallet_available_balance)-LENDING_AMOUNT > 150 and int(wallet_available_balance)-LENDING_AMOUNT < 450:
+                if int(wallet_available_balance)-LENDING_AMOUNT > 150 and int(wallet_available_balance)-LENDING_AMOUNT < 600:
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
@@ -191,30 +191,36 @@ else:
                         rate="0.00055",  # 匯率
                         period=2  # 放貸天數
                     )
-                if int(wallet_available_balance)-LENDING_AMOUNT > 450:
+                if int(wallet_available_balance)-LENDING_AMOUNT >= 600:
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
                         amount="150",  # 放貸金額
-                        rate="0.0003",  # 匯率
+                        rate="0.00025",  # 匯率
                         period=2  # 放貸天數
                     )
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
                         amount="150",  # 放貸金額
-                        rate="0.0004",  # 匯率
+                        rate="0.00025",  # 匯率
                         period=2  # 放貸天數
                     )
                     
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
-                        amount=str(int(wallet_available_balance)-LENDING_AMOUNT),  # 放貸金額
-                        rate="0.00055",  # 匯率
+                        amount="150",  # 放貸金額
+                        rate="0.00025",  # 匯率
                         period=2  # 放貸天數
                     )
-                
+                    response = bfx.rest.auth.submit_funding_offer(
+                        type="LIMIT",  # 放貸類型
+                        symbol=coin,
+                        amount="150",  # 放貸金額
+                        rate="0.00025",  # 匯率
+                        period=2  # 放貸天數
+                    )                
                 
                 bot = telebot.TeleBot(TG_Token)
 
