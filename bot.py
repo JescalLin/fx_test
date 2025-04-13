@@ -221,7 +221,13 @@ else:
                         rate="0.00025",  # 匯率
                         period=2  # 放貸天數
                     )                
-                
+                    response = bfx.rest.auth.submit_funding_offer(
+                        type="LIMIT",  # 放貸類型
+                        symbol=coin,
+                        amount=str(int(wallet_available_balance)),  # 放貸金額
+                        rate=best_rate.rate,  # 匯率
+                        period=2  # 放貸天數
+                    )                
                 bot = telebot.TeleBot(TG_Token)
 
                 if len(msg) > 4095:
