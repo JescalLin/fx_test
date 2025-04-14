@@ -88,6 +88,8 @@ else:
     LENDING_AMOUNT = base_price  # 放貸總金額
     LENDING_PERIOD = 2  # 放貸天數
     RATE_THRESHOLD = [0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008]  # 匯率門檻
+    rate_change = 0.0001
+    RATE_THRESHOLD = [rate - rate_change for rate in RATE_THRESHOLD]
     Y_RATE_THRESHOLD = []
     for i in range(len(RATE_THRESHOLD)):
         annual_rate = RATE_THRESHOLD[i] * 365  # 將日利率轉換為年利率
