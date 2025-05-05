@@ -198,14 +198,14 @@ else:
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
                         amount="150",  # 放貸金額
-                        rate="0.00025",  # 匯率
+                        rate="0.00019",  # 匯率
                         period=2  # 放貸天數
                     )
                     response = bfx.rest.auth.submit_funding_offer(
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
                         amount="150",  # 放貸金額
-                        rate="0.00025",  # 匯率
+                        rate="0.00019",  # 匯率
                         period=2  # 放貸天數
                     )
                     
@@ -213,7 +213,7 @@ else:
                         type="LIMIT",  # 放貸類型
                         symbol=coin,
                         amount="150",  # 放貸金額
-                        rate="0.00025",  # 匯率
+                        rate="0.00019",  # 匯率
                         period=2  # 放貸天數
                     )
 
